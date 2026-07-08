@@ -1,0 +1,77 @@
+{
+  "name": "@utegsk/umami-react-integration",
+  "description": "Lightweight React component for Umami analytics — first-class control over heatmap & replay capture, all data-* attributes exposed as typed props.",
+  "version": "0.0.0",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "umami",
+    "analytics",
+    "heatmaps",
+    "replays",
+    "privacy",
+    "core-web-vitals"
+  ],
+  "author": "utegsk",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "module": "./dist/exports/index.js",
+  "types": "./dist/exports/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/exports/index.d.ts",
+        "default": "./dist/exports/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production bunup",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "prepublishOnly": "bun run clean && bun run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "22.19.9",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "bunup": "^0.16.32",
+    "jsdom": "^26.1.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "typescript": "5.7.3",
+    "vitest": "4.0.18"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/utegsk/umami-react-integration.git"
+  },
+  "homepage": "https://github.com/utegsk/umami-react-integration",
+  "bugs": {
+    "url": "https://github.com/utegsk/umami-react-integration/issues"
+  },
+  "properties": {
+    "gitCommitScopeRelatedNames": "umami-react-integration,umami"
+  }
+}
