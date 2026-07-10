@@ -40,10 +40,6 @@ function resolveWebsiteId(prop?: string): string | undefined {
   return prop ?? readEnv('UMAMI_ID', 'NEXT_PUBLIC_UMAMI_ID');
 }
 
-function scriptUrl(url: string, recorder: boolean): string {
-  return recorder ? `${url}/recorder.js` : `${url}/script.js`;
-}
-
 export function UmamiTracker(props: UmamiTrackerProps) {
   const {
     websiteId: websiteIdProp,
@@ -113,13 +109,20 @@ export function UmamiTracker(props: UmamiTrackerProps) {
   );
 
   const finalWebsiteId = websiteId ?? '';
-  const src = scriptUrl(url, recorder);
 
   useScript({
-    src,
+    src: `${url}/script.js`,
     websiteId: finalWebsiteId,
     attributes: dataAttributes,
     enabled: lazyReady,
+    debug,
+  });
+
+  useScript({
+    src: `${url}/recorder.js`,
+    websiteId: finalWebsiteId,
+    attributes: dataAttributes,
+    enabled: lazyReady && recorder,
     debug,
   });
 

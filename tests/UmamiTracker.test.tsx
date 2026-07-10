@@ -29,7 +29,7 @@ describe('UmamiTracker', () => {
     expect(script?.getAttribute('data-website-id')).toBe('abc-123');
   });
 
-  it('loads recorder.js when recorder={true}', () => {
+  it('loads BOTH script.js and recorder.js when recorder={true}', () => {
     render(
       <UmamiTracker
         websiteId="abc-123"
@@ -37,8 +37,12 @@ describe('UmamiTracker', () => {
         recorder
       />,
     );
-    const script = getInjectedScript();
-    expect(script?.src).toBe('https://umami.example.com/recorder.js');
+    const scripts = Array.from(
+      document.head.querySelectorAll('script[data-website-id]'),
+    ) as HTMLScriptElement[];
+    const srcs = scripts.map((s) => s.src);
+    expect(srcs).toContain('https://umami.example.com/script.js');
+    expect(srcs).toContain('https://umami.example.com/recorder.js');
   });
 
   it('falls back to script.js when recorder={false}', () => {

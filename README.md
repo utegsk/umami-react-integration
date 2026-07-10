@@ -39,7 +39,7 @@ The component renders `null` — it only injects the Umami tracking script into 
 | `websiteId`        | `string`                 | env `UMAMI_ID`                                 | Your website tracking ID.                                                                                                                                                   |
 | `url`              | `string`                 | env `UMAMI_URL`, then `https://cloud.umami.is` | Where the tracker script is loaded from.                                                                                                                                    |
 | `hostUrl`          | `string`                 | —                                              | `data-host-url` — where captured data is **sent**. May differ from `url` (load from CDN, send to your own instance).                                                        |
-| `recorder`         | `boolean`                | `false`                                        | When `true`, loads `recorder.js` instead of `script.js`. Captures the data feeding both **heatmaps** and **replays** (dashboard has separate toggles for which to display). |
+| `recorder`         | `boolean`                | `false`                                        | When `true`, loads `recorder.js` **additionally** (in addition to `script.js`). Captures the DOM data feeding **heatmaps** and **replays** (dashboard has separate toggles for which to display). |
 | `domains`          | `string[]`               | —                                              | `data-domains` — restrict tracking to these hostnames.                                                                                                                      |
 | `doNotTrack`       | `boolean`                | —                                              | `data-do-not-track` — respect browser DNT.                                                                                                                                  |
 | `excludeSearch`    | `boolean`                | —                                              | `data-exclude-search` — strip `?query=…` from collected URLs.                                                                                                               |
@@ -56,21 +56,22 @@ The component renders `null` — it only injects the Umami tracking script into 
 
 Umami has two tracker scripts at the same host:
 
-| Script               | Captures                                                                          |
-|----------------------|-----------------------------------------------------------------------------------|
-| `<host>/script.js`   | Pageviews, events, link clicks — analytics only                                   |
-| `<host>/recorder.js` | All of the above + DOM mutations, mouse, scroll — feeds both replays and heatmaps |
+| Script               | Captures                                                       |
+|----------------------|----------------------------------------------------------------|
+| `<host>/script.js`   | Pageviews, events, link clicks — analytics only                |
+| `<host>/recorder.js` | DOM mutations, mouse, scroll — feeds both replays and heatmaps |
+
+`recorder` is **additive** — when `true`, both `script.js` and `recorder.js` are loaded. Analytics events come cleanly from `script.js`; recording data is captured independently by `recorder.js`. Skip the duplication: set `recorder` only if you actually want heatmaps or replays on the website.
 
 ```tsx
-// analytics only (default)
+// analytics only (default) — loads script.js
 <UmamiTracker websiteId="abc" url="https://umami.example.com"/>
 
-// capture data for heatmaps + replays
+// analytics + heatmaps + replays — loads BOTH script.js and recorder.js
 <UmamiTracker websiteId="abc" url="https://umami.example.com" recorder/>
 ```
 
-Then toggle heatmaps and/or replays on in your website settings in the Umami dashboard. Loading `recorder.js` is the
-client-side requirement; the dashboard decides what to do with the captured data.
+Toggle heatmaps and/or replays on in the website's Umami dashboard settings. The dashboard decides what to do with the captured data; the `recorder` prop is the client-side gate.
 
 ## Env fallback
 
