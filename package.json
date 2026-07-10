@@ -1,7 +1,7 @@
 {
   "name": "@utegsk/umami-react-integration",
   "description": "Lightweight React component for Umami analytics — first-class control over heatmap & replay capture, all data-* attributes exposed as typed props.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "private": false,
   "license": "MIT",
